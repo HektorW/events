@@ -1,0 +1,9 @@
+{
+  "name": "Site",
+  "version": "0.0.0",
+  "authors": [
+    "Hektor Wallin <hektorw@gmail.com>"
+  ],
+  "dependencies": {
+  }
+}
