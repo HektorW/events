@@ -33,5 +33,12 @@ require([
   obj.off('foo', function() {});
 
   obj.trigger('foo');
+
+
+  obj.once('baz', log('baz'));
+
+  obj.trigger('baz');
+  obj.trigger('baz');
+  obj.trigger('baz');
 });
 

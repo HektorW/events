@@ -23,7 +23,7 @@
   var Events = {
 
     // listen to an event
-    on: function(event, callback, context /* opt */) {
+    on: function(event, callback, context) {
       if(!event || typeof callback !== 'function')
         throw "event type and callback of type function is required arguments";
 
@@ -34,6 +34,14 @@
         ctx: context || this
       });
       return this;
+    },
+
+    // event that only fires once
+    once: function(event, callback, context) {
+      this.on(event, function fn() {
+        this.off(event, fn, context);
+        callback.apply(this, arguments);
+      }, context);
     },
 
     off: function(event, callback, ctx) {
