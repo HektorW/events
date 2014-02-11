@@ -52,6 +52,12 @@
           continue;
 
         ev = events[key];
+
+        if(!callback && !ctx){
+          // reset events array if only event was supplied
+          ev.length = 0;
+        }
+
         for(i = ev.length; i--; ) {
           data = ev[i];
           _cb = data.callback === callback;

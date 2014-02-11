@@ -1,3 +1,4 @@
+/* global console */
 
 require([
   'events'
@@ -10,7 +11,7 @@ require([
   }
 
 
-  window.obj = {
+  var obj = window.obj = {
     toString: function() {return '"obj"';}
   };
 
@@ -19,10 +20,18 @@ require([
   var log = function(ev) {
     return function() {
       console.log(ev + ', ctx:' + this + ', args' + arguments);
-    }
-  }
+    };
+  };
 
-  obj.on('ev', log('ev'));
+  obj.on('foo', log('foo'));
+  obj.on('bar', log('bar'));
 
+  obj.trigger('foo');
+  obj.trigger('foo');
+  obj.trigger('bar');
+
+  obj.off('foo', function() {});
+
+  obj.trigger('foo');
 });
 
