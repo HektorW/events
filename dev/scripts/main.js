@@ -1,52 +1,45 @@
 /* global console */
 
 require([
-  'events'
+	'events'
 ], function(Events) {
-  
-  function extend(dest, source) {
-    for(var key in source) {
-      dest[key] = source[key];
-    }
-  }
+
+	function extend(dest, source) {
+		for (var key in source) {
+			dest[key] = source[key];
+		}
+	}
 
 
-  var obj = window.obj = {
-    toString: function() {return '"obj"';}
-  };
+	var obj = window.obj = {
+		toString: function() {
+			return '"obj"';
+		}
+	};
 
-  extend(obj, Events);
+	extend(obj, Events);
 
-  function log(ev) {
-    return function() {
-      console.log(ev + ', ctx:' + this + ', args' + arguments);
-    };
-<<<<<<< HEAD
-  }
+	function log(ev) {
+		return function() {
+			console.log(ev + ', ctx:' + this + ', args' + arguments);
+		};
+	}
 
+	obj.on('foo', log('foo'));
+	obj.on('bar', log('bar'));
 
+	obj.trigger('foo');
+	obj.trigger('foo');
+	obj.trigger('bar');
 
-  obj.on('ev1', log('ev1'));
-=======
-  };
+	obj.off('foo', function() {});
 
-  obj.on('foo', log('foo'));
-  obj.on('bar', log('bar'));
-
-  obj.trigger('foo');
-  obj.trigger('foo');
-  obj.trigger('bar');
-
-  obj.off('foo', function() {});
-
-  obj.trigger('foo');
+	obj.trigger('foo');
 
 
-  obj.once('baz', log('baz'));
->>>>>>> origin/master
+	obj.once('baz', log('baz'));
 
-  obj.trigger('baz');
-  obj.trigger('baz');
-  obj.trigger('baz');
+	obj.trigger('baz');
+	obj.trigger('baz');
+	obj.trigger('baz');
 });
-
