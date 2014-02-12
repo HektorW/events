@@ -16,13 +16,15 @@ require([
 
   extend(obj, Events);
 
-  var log = function(ev) {
+  function log(ev) {
     return function() {
       console.log(ev + ', ctx:' + this + ', args' + arguments);
-    }
+    };
   }
 
-  obj.on('ev', log('ev'));
+
+
+  obj.on('ev1', log('ev1'));
 
 });
 
