@@ -5,6 +5,7 @@
     "Hektor Wallin <hektorw@gmail.com>"
   ],
   "dependencies": {
-    "requirejs": "~2.1.10"
+    "requirejs": "~2.1.10",
+    "jquery": "~2.1.1"
   }
 }
