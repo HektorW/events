@@ -88,12 +88,13 @@
 
   var _data = new Data();
 
-  function _addEventToQueue(obj, event, args) {
+  function _addEventToQueue(obj, event, args, promise) {
     _eventQueue.push({
       obj: obj,
       event: event,
       args: args,
-      index: 0
+      index: 0,
+      promise: promise
     });
 
     _batchEvents();
@@ -114,9 +115,7 @@
 
         var eventData = _data.get(obj, event);
 
-        if (!eventData) continue;
-
-        var len = eventData.length,
+        var len = eventData && eventData.length || 0,
             start = _now();
 
         for (; index < len && _now() - start < _batchTime; index++) {
@@ -130,6 +129,8 @@
           _eventQueue.unshift(queueData);
           break;
         }
+
+        queueData.promise.resolve();
       }
     }
 
@@ -205,12 +206,17 @@
 
     triggerEvent: function(obj, event) {
       var args = slice.call(arguments, 2);
+      var promise = $.Deferred();
 
       if (_isDOM(obj)) {
-        return $.fn.trigger.apply($(obj), [event].concat(args));
+        $.fn.trigger.apply($(obj), [event].concat(args));
+        promise.resolve();
+      } else {
+        _addEventToQueue(obj, event, args, promise);
       }
 
-      _addEventToQueue(obj, event, args);
+
+      return promise;
     }
   };
 
