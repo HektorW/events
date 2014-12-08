@@ -176,15 +176,20 @@
         return $(obj).on(event, $.proxy(callback, context));
       }
 
-      var eventData = _data.get(obj, event);
-      if (!eventData) {
-        eventData = _data.set(obj, event, [])[event];
-      }
+      var events = event.split(' ');
+      for (var i = 0; i < events.length; i++) {
+        var eventName = events[i];
 
-      eventData.push({
-        callback: callback,
-        context: context
-      });
+        var eventData = _data.get(obj, eventName);
+        if (!eventData) {
+          eventData = _data.set(obj, eventName, [])[eventName];
+        }
+
+        eventData.push({
+          callback: callback,
+          context: context
+        });
+      }
     },
 
     removeListener: function(obj, event, callback, context) {
@@ -204,6 +209,7 @@
       }
     },
 
+    // add support for event as object
     triggerEvent: function(obj, event) {
       var args = slice.call(arguments, 2);
       var promise = $.Deferred();
@@ -212,7 +218,11 @@
         $.fn.trigger.apply($(obj), [event].concat(args));
         promise.resolve();
       } else {
-        _addEventToQueue(obj, event, args, promise);
+        var events = event.split(' ');
+        for (var i = 0; i < events.length; i++) {
+          _addEventToQueue(obj, events[i], args, promise);
+        }
+
       }
 
 
